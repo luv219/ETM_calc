@@ -1,24 +1,30 @@
 import math
-l=31.5/100 #m
-b=2.5/100 #m
-t=0.6/100 #m
 
-f0=float(input("Enter Force amplitude:"))
-rho=7810 #kg/m^3
-E=210*10**9 #pa
+frequency_Hz=int(input("Enter Force frequency:")) #Hz
 
-I=(b*(t**3))/12 #m^4
-k=(8*E*I)/(l**3)
+F0_mlb=float(input("Enter Force Amplitude:")) #mlb(milli-pound)
+F0=F0_mlb*4.45/1000 #N
 
-c=0
-omega=0
+amplitude_mg=int(input("Enter Amplitude:")) #mg (milli-gravity)
+amplitude=amplitude_mg*9.81/1000 #m/s^2
 
-X = f0 / math.sqrt((k - (rho * l * b * t) * omega**2)**2 + (c * omega)**2)
+omega=2*math.pi*frequency_Hz #rad/s
 
-print('Vibration Displacement theory:', X)
+E=210e9 #N/m^2
+density=7810 #kg/m^3
+l=0.315 #m
+b=0.025 #m
+t=0.006 #m
 
-a=int(input("Enter the amplitude:"))
-a_fin=a*9.8/1000
-Xf=a_fin/omega**2
+I=(b*t**3)/12 #m^4
 
-print("Vibration Displacement apltitude(exp):", Xf)
+K=(8*E*I)/(l**3) #N/m
+
+volume=(l*b*t) #m^3
+m_beam=density*volume #Kg
+
+X0_theory=F0/math.sqrt((K-m_beam*omega**2)**2) #m
+X0_exp=amplitude/(omega**2) #m
+
+print("Vibration Displacement Theory:", X0_theory,'m')
+print("Vibration Displacement Experimental:", X0_exp,'m')
